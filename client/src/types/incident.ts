@@ -26,3 +26,26 @@ export interface Incident {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface CreateIncidentRequest {
+  title: string;
+  description: string;
+  severity: IncidentSeverity;
+}
+
+export interface UpdateIncidentStatusRequest {
+  status: IncidentStatus;
+}
+
+export interface IncidentFilters {
+  severity?: IncidentSeverity;
+  status?: IncidentStatus;
+}
+
+export interface IncidentAnalysis {
+  summary: string;
+  recommendedSeverity: IncidentSeverity;
+  reason: string;
+  possibleRootCauses: string[];
+  confidence: number;
+}

@@ -12,7 +12,7 @@ router.get("/", incidentController.getAllIncidents);
 // GET /api/incidents/:id
 router.get("/:id", incidentController.getIncidentById);
 
-// PUT /api/incidents/:id/status
+// PATCH /api/incidents/:id/status
 router.patch("/:id/status", incidentController.updateIncidentStatus);
 
 // GET /api/incidents/:id/analysis

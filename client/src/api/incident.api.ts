@@ -1,5 +1,12 @@
 import api from "./axios";
-import type { Incident } from "../types/incident";
+
+import type {
+  CreateIncidentRequest,
+  IncidentAnalysis,
+  Incident,
+  IncidentFilters,
+  UpdateIncidentStatusRequest,
+} from "../types/incident";
 
 interface ApiResponse<T> {
   success: boolean;
@@ -7,9 +14,15 @@ interface ApiResponse<T> {
   data: T;
 }
 
-export const getIncidents = async (): Promise<Incident[]> => {
-  const response =
-    await api.get<ApiResponse<Incident[]>>("/incidents");
+export const getIncidents = async (
+  filters: IncidentFilters = {}
+): Promise<Incident[]> => {
+  const response = await api.get<ApiResponse<Incident[]>>(
+    "/incidents",
+    {
+      params: filters,
+    }
+  );
 
   return response.data.data;
 };
@@ -17,9 +30,42 @@ export const getIncidents = async (): Promise<Incident[]> => {
 export const getIncidentById = async (
   id: string
 ): Promise<Incident> => {
+  const response = await api.get<ApiResponse<Incident>>(
+    `/incidents/${id}`
+  );
 
-  const response =
-    await api.get<ApiResponse<Incident>>(`/incidents/${id}`);
+  return response.data.data;
+};
+
+export const createIncident = async (
+  payload: CreateIncidentRequest
+): Promise<Incident> => {
+  const response = await api.post<ApiResponse<Incident>>(
+    "/incidents",
+    payload
+  );
+
+  return response.data.data;
+};
+
+export const updateIncidentStatus = async (
+  id: string,
+  payload: UpdateIncidentStatusRequest
+): Promise<Incident> => {
+  const response = await api.patch<ApiResponse<Incident>>(
+    `/incidents/${id}/status`,
+    payload
+  );
+
+  return response.data.data;
+};
+
+export const analyzeIncident = async (
+  id: string
+): Promise<IncidentAnalysis> => {
+  const response = await api.get<
+    ApiResponse<IncidentAnalysis>
+  >(`/incidents/${id}/analysis`);
 
   return response.data.data;
 };
