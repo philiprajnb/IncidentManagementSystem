@@ -20,3 +20,8 @@ export const createIncidentSchema = z.object({
 export const updateIncidentStatusSchema = z.object({
   status: z.enum(IncidentStatus),
 });
+
+export const getIncidentsQuerySchema = z.object({
+  severity: z.enum(IncidentSeverity).optional(),
+  status: z.enum(IncidentStatus).optional(),
+});
