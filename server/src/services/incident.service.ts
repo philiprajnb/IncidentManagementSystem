@@ -1,5 +1,6 @@
 import Incident, { IIncident } from "../models/incident";
 import { CreateIncidentRequest, IncidentStatus } from "../types/incident";
+import { IncidentResponseDto, toIncidentDto } from "../dto/incident.dto";
 
 export class IncidentService {
   /**
@@ -7,14 +8,22 @@ export class IncidentService {
    */
   async createIncident(
     incidentData: CreateIncidentRequest
-  ): Promise<IIncident> {
+  ): Promise<IncidentResponseDto> {
     const incident = await Incident.create({
       ...incidentData,
       status: IncidentStatus.OPEN,
     });
 
-    return incident.toObject();
+    return toIncidentDto(incident);
   }
+  /**
+   * Get all incidents
+   */
+  async getAllIncidents(): Promise<IncidentResponseDto[]> {
+  const incidents = await Incident.find().sort({ createdAt: -1 });
+
+  return incidents.map(toIncidentDto);
+}
 }
 
 export default new IncidentService();
