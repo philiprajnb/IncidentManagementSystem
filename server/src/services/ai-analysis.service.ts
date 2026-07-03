@@ -6,6 +6,11 @@ class AIAnalysisService {
   async analyzeIncident(
     incident: IIncident
   ): Promise<AIAnalysisDto> {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error(
+        "GEMINI_API_KEY is required to use AI analysis."
+      );
+    }
 
     const prompt = `
 You are a Senior Site Reliability Engineer (SRE)
