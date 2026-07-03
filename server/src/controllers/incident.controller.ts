@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import incidentService from "../services/incident.service";
+import aiAnalysisService from "../services/ai-analysis.service";
 import { createIncidentSchema, getIncidentsQuerySchema, updateIncidentStatusSchema } from "../validators/incident.validator";
 import { ZodError } from "zod";
 interface GetIncidentParams {
@@ -163,6 +164,50 @@ export class IncidentController {
         });
 
     }
+    }
+
+/**
+ * Analyze an incident using AI
+ */
+    async analyzeIncident(
+    req: Request<GetIncidentParams>,
+    res: Response
+    ): Promise<void> {
+
+    try {
+
+        const incident =
+        await incidentService.findIncidentById(req.params.id);
+
+        if (!incident) {
+
+        res.status(404).json({
+            success: false,
+            message: "Incident not found",
+        });
+
+        return;
+        }
+
+        const analysis =
+        await aiAnalysisService.analyzeIncident(incident);
+
+        res.status(200).json({
+        success: true,
+        data: analysis,
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+        success: false,
+        message: "Failed to analyze incident",
+        });
+
+    }
+
     }
 }
 

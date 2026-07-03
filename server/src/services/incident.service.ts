@@ -77,6 +77,24 @@ async updateIncidentStatus(
 
   return toIncidentDto(incident);
 }
+
+/**
+
+ * Returns the raw Mongoose document.
+
+ * Used internally by other services like AI.
+
+ */
+
+async findIncidentById(
+
+  id: string
+
+): Promise<IIncident | null> {
+
+  return Incident.findById(id);
+
+}
 }
 
 

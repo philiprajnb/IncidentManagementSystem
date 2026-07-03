@@ -15,4 +15,7 @@ router.get("/:id", incidentController.getIncidentById);
 // PUT /api/incidents/:id/status
 router.patch("/:id/status", incidentController.updateIncidentStatus);
 
+// GET /api/incidents/:id/analysis
+router.get("/:id/analysis", incidentController.analyzeIncident);
+
 export default router;
