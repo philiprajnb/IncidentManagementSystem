@@ -59,10 +59,9 @@ Create `server/.env` if you want to use the AI analysis feature:
 ```env
 GEMINI_API_KEY=your_gemini_api_key
 PORT=3010
-FRONTEND_URL=http://localhost:5173
 ```
 
-For deployment, set `FRONTEND_URL` to the deployed frontend origin, for example `https://your-app.vercel.app`. Vercel preview domains ending in `.vercel.app` are also allowed by the backend CORS configuration.
+For demo deployment, the backend CORS configuration allows browser requests from deployed frontend origins. For production, restrict CORS to your exact frontend domain.
 
 Start the backend:
 
