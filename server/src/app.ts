@@ -7,17 +7,14 @@ import incidentRoutes from "./routes/incident.routes";
 const app = express();
 
 app.use(helmet());
-
 const corsOptions = {
-  origin: true,
+  origin: ['http://localhost:5173', 'https://incident-management-system-five.vercel.app'],
   methods: ["GET", "POST", "PATCH", "OPTIONS", "PUT", "DELETE"], 
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
   optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
 
-app.options(/.*$/, cors(corsOptions));
 
 app.use(compression());
 app.use(morgan("dev"));
@@ -31,6 +28,6 @@ app.get("/health", (_, res) => {
   });
 });
 
-app.use("/api/incidents", incidentRoutes);
+app.use("/api/incidents", cors(corsOptions), incidentRoutes);
 
 export default app;
