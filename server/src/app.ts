@@ -7,19 +7,18 @@ import incidentRoutes from "./routes/incident.routes";
 const app = express();
 
 app.use(helmet());
-app.use(
-  cors({
-    origin: true,
-    methods: [
-      "GET",
-      "POST",
-      "PATCH",
-      "OPTIONS",
-    ],
-    allowedHeaders: ["Content-Type"],
-    optionsSuccessStatus: 204,
-  })
-);
+
+const corsOptions = {
+  origin: true,
+  methods: ["GET", "POST", "PATCH", "OPTIONS", "PUT", "DELETE"], 
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+
+app.options("*", cors(corsOptions));
+
 app.use(compression());
 app.use(morgan("dev"));
 
